@@ -42,10 +42,17 @@ npm run build --silent 2>/dev/null
 echo "[OK] Built successfully"
 
 # 4. Create .env
-cat > "$INSTALL_DIR/.env" << 'ENVEOF'
+echo ""
+echo "Enter the Client Secret (ask Amit if you don't have it):"
+read -r CLIENT_SECRET
+if [ -z "$CLIENT_SECRET" ]; then
+    echo "ERROR: Client secret is required."
+    exit 1
+fi
+cat > "$INSTALL_DIR/.env" << ENVEOF
 PLANNER_TENANT_ID=d54794b1-f598-4c0f-a276-6039a39774ac
 PLANNER_CLIENT_ID=a8d46b4d-b1d0-48aa-b4c4-2122a97d6dc8
-PLANNER_CLIENT_SECRET=y-r8Q~z_q7n8t59J8OBr~6lltuwtWhnKIySriayC
+PLANNER_CLIENT_SECRET=$CLIENT_SECRET
 ENVEOF
 echo "[OK] Credentials configured"
 
@@ -68,7 +75,7 @@ config.mcpServers.planner = {
   env: {
     PLANNER_TENANT_ID: 'd54794b1-f598-4c0f-a276-6039a39774ac',
     PLANNER_CLIENT_ID: 'a8d46b4d-b1d0-48aa-b4c4-2122a97d6dc8',
-    PLANNER_CLIENT_SECRET: 'y-r8Q~z_q7n8t59J8OBr~6lltuwtWhnKIySriayC'
+    PLANNER_CLIENT_SECRET: '$CLIENT_SECRET'
   }
 };
 fs.writeFileSync('$CLAUDE_CONFIG', JSON.stringify(config, null, 2));
@@ -83,7 +90,7 @@ else
       "env": {
         "PLANNER_TENANT_ID": "d54794b1-f598-4c0f-a276-6039a39774ac",
         "PLANNER_CLIENT_ID": "a8d46b4d-b1d0-48aa-b4c4-2122a97d6dc8",
-        "PLANNER_CLIENT_SECRET": "y-r8Q~z_q7n8t59J8OBr~6lltuwtWhnKIySriayC"
+        "PLANNER_CLIENT_SECRET": "$CLIENT_SECRET"
       }
     }
   }

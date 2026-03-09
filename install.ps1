@@ -49,10 +49,18 @@ Write-Host "[OK] Built successfully" -ForegroundColor Green
 
 # 4. Create .env
 $envFile = Join-Path $installDir ".env"
+Write-Host ""
+Write-Host "Enter the Client Secret (ask Amit if you don't have it):" -ForegroundColor Yellow
+$clientSecret = Read-Host
+if (-not $clientSecret) {
+    Write-Host "ERROR: Client secret is required." -ForegroundColor Red
+    Read-Host "Press Enter to exit"
+    exit 1
+}
 @"
 PLANNER_TENANT_ID=d54794b1-f598-4c0f-a276-6039a39774ac
 PLANNER_CLIENT_ID=a8d46b4d-b1d0-48aa-b4c4-2122a97d6dc8
-PLANNER_CLIENT_SECRET=y-r8Q~z_q7n8t59J8OBr~6lltuwtWhnKIySriayC
+PLANNER_CLIENT_SECRET=$clientSecret
 "@ | Set-Content $envFile
 Write-Host "[OK] Credentials configured" -ForegroundColor Green
 
@@ -81,7 +89,7 @@ $plannerConfig = [PSCustomObject]@{
     env = [PSCustomObject]@{
         PLANNER_TENANT_ID = "d54794b1-f598-4c0f-a276-6039a39774ac"
         PLANNER_CLIENT_ID = "a8d46b4d-b1d0-48aa-b4c4-2122a97d6dc8"
-        PLANNER_CLIENT_SECRET = "y-r8Q~z_q7n8t59J8OBr~6lltuwtWhnKIySriayC"
+        PLANNER_CLIENT_SECRET = $clientSecret
     }
 }
 
