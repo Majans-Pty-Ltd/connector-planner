@@ -19,6 +19,19 @@ Planner API requires **delegated permissions** (no app-only support). Each user 
 
 **Entra app redirect URI**: `http://localhost:3847/callback` (Web platform)
 
+## File Structure
+
+```
+src/
+  index.ts           # MCP server entry point (stdio)
+  auth.ts            # Delegated auth (auth code + refresh token)
+  tools/             # 12 tool implementations (plans, buckets, tasks)
+  setup.ts           # Interactive browser auth setup
+.tokens.json         # Refresh token storage (git-ignored)
+package.json         # Dependencies
+tsconfig.json        # TypeScript config
+```
+
 ## Key Commands
 ```bash
 npm install          # Install dependencies
